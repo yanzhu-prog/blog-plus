@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block title %} 用户详情 {% endblock %}
+
+{% block content %}
+<div class="container">
+    <p style="color:red;">{{msg}}</p>
+    <form action="{{ url_for('blog.update') }}" method="post" enctype="multipart/form-data">
+        {{uform.csrf_token}}
+        <div class="form-group">
+            <label>用户名</label>
+            {{uform.username}}
+        </div>
+        <div class="form-group">
+            <label>手机号码</label>
+            {{ uform.phone }}
+        </div>
+        <div class="form-group">
+            <label>注册时间</label>
+            {{ uform.rdatetime}}
+        </div>
+        <div class="form-group">
+            <label>用户头像</label>
+            {{ uform.icon}} <img
+                src="{% if not user.icon %} {{url_for('static',filename='upload/default.jpg')}}  {%else%} {{url_for('static',filename=user.icon)}} {%endif%}"
+                alt="" class="img-circle">
+        </div>
+        <input type="hidden" name="id" value="{{user.id}}">
+
+        <button type="submit" class="btn btn-info">更新用户</button>
+    </form>
+</div>
+{% endblock %}
+

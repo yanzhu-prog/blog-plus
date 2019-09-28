@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block title %} 用户文章 {% endblock %}
+
+{% block content %}
+<div class="container">
+    <h3>{{user.username}}发表的文章如下:</h3>
+    <ul>
+        {% for article in user.articles %}
+        <li>{{article.title}}</li>
+
+        {% endfor %}
+    </ul>
+</div>
+
+{% endblock %}

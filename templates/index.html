@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+{% block mycss %}
+<style>
+    .box{
+      width: 60%;
+      border-bottom: 1px dashed gray;
+      padding: 10px 30px;
+    }
+
+    .box p{
+      font-size:14px;
+      color: #a3a3a3;
+      margin-bottom:20px;
+      margin-top:20px;
+    }
+
+    .box div{
+      font-size:12px;
+      color: #c3c3c3;
+      text-align:right;
+    }
+
+    .a2{
+      color:gray;
+    }
+
+
+</style>
+
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    {% for article in paginate.items %}
+    <div class="box">
+        <h3><a href="{{url_for('article.detail')}}?aid={{article.id}}">{{article.title}}</a></h3>
+        <p>{{ article.content }} </p>
+        <div>
+            <!--article.user.username   -->
+            <span>{{article.user.username}}</span>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <span class="glyphicon glyphicon-eye-open a2"></span>
+            <span>{{article.click_num}}</span>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <span class="glyphicon glyphicon-thumbs-up a2"></span>
+            <span>{{article.love_num}}</span>
+        </div>
+    </div>
+
+    {% endfor %}
+
+    <nav aria-label="Page navigation">
+        <ul class="pagination">
+            <li {% if not paginate.has_prev %}class="disabled" {%endif%}>
+                <a href="{{url_for('blog.index')}}?page={{paginate.prev_num}}" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+            {% for num in range(1,paginate.pages+1) %}
+            <li {% if num== paginate.page %}class="active" {% endif %}><a href="{{url_for('blog.index')}}?page={{num}}">{{num}}</a>
+            </li>
+            {% endfor %}
+            <li {% if not paginate.has_next %}class="disabled" {%endif%}>
+                <a href="{{url_for('blog.index')}}?page={{paginate.next_num}}" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+</div>
+
+{% endblock %}

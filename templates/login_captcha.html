@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% block title %} 用户登录 {% endblock %}
+
+{% block content %}
+<div class="container">
+    <p>
+     {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <ul class="flash">
+                {% for message in messages %}
+                <div class="alert alert-success" style="text-align: center">
+                    <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+                    <strong>{{ message }}</strong>
+                </div>
+                {% endfor %}
+            </ul>
+        {% endif %}
+     {% endwith %}
+    </p>
+    <form action="{{ url_for('blog.login') }}" method="post">
+        <input type="hidden" name="csrf_token" value="{{csrf_token()}}">
+        <div class="form-group">
+            <label for="exampleInputUserName" class="col-sm-2 control-label">用户名</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="exampleInputUserName" placeholder="username"
+                       name="username">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="exampleInputPassword1" class="col-sm-2 control-label">密码</label>
+            <div class="col-sm-10">
+                <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password"
+                       name="password1">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="exampleInputCaptcha" class="col-sm-2 control-label">验证码</label>
+            <div class="col-sm-8">
+                <input type="text" class="form-control" id="exampleInputCaptcha" placeholder="captcha" name="captcha">
+            </div>
+            <div class="col-sm-2">
+                <img src="{{url_for('blog.pic')}}" alt="ABC" style="height:34px;" id="pic">
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-info">用户登录</button>
+            </div>
+        </div>
+
+    </form>
+
+</div>
+{% endblock %}
+
+{% block myjs %}
+<script>
+    $('#pic').click(function(){
+        //console.log('------');
+       $(this).attr('src','{{url_for('blog.pic')}}?ran='+Math.random());
+    })
+
+
+
+</script>
+
+{% endblock %}

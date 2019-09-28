@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% block title %} 用户登录 {% endblock %}
+
+{% block content %}
+<div class="container">
+    <p>
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+    <ul class="flash">
+        {% for message in messages %}
+        <div class="alert alert-success" style="text-align: center">
+            <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+            <strong>{{ message }}</strong></div>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    {% endwith %}
+    </p>
+    <form action="{{ url_for('blog.login') }}" method="post">
+        <input type="hidden" name="csrf_token" value="{{csrf_token()}}">
+        <div class="form-group">
+            <label class="col-sm-2 control-label">手机号码</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="phone" placeholder="phone"
+                       name="phone">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label">验证码</label>
+            <div class="col-sm-8">
+                <input type="text" class="form-control" id="valiadate" placeholder="valiadate" name="valiadate">
+            </div>
+            <div class="col-sm-2">
+                <input type="button" value="获取验证码" class="btn btn-warning" id="getCode">
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-info">用户登录</button>
+            </div>
+        </div>
+
+    </form>
+
+</div>
+{% endblock %}
+
+{% block myjs %}
+<script>
+    $('#getCode').click(function(){
+        // 获取手机号码文本框的值
+        var  phone = $('#phone').val();
+
+        flag=(phone!=''&&phone.length==11);
+        console.log(phone+"---"+flag);
+        if(flag){
+            // 向服务器发送请求
+            $.getJSON("{{url_for('blog.send')}}",{phone:phone},function(data){
+                if(data.msg=='success'){
+                   alert('发送成功！')
+                }else{
+                  alert('发送失败！')
+                }
+            });
+        }else{
+          alert('手机号码不能为空，长度必须11位')
+        }
+    })
+
+
+
+</script>
+
+{% endblock %}

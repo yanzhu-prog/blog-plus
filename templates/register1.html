@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block title %} 用户注册 {% endblock %}
+
+{% block content %}
+<div class="container">
+    <p style="color:red;">{{msg}}</p>
+    <p style="color:red;">{% if rform.errors %}
+        {% for error in rform.errors.values() %}
+    <div>{{error.0}}</div>
+    {% endfor %}
+    {% endif %}
+    </p>
+    <form action="{{ url_for('blog.register') }}" method="post">
+
+        <input type="hidden" name="csrf_token" value="{{csrf_token()}}">
+        {{rform.username.label(class=" control-label")}} {{rform.username}} &nbsp;&nbsp; <span>{% if rform.username.errors %} {{rform.username.errors.0}} {%endif%}</span>
+        <br>
+        {{rform.password.label(class="control-label")}} {{rform.password}} &nbsp;&nbsp;<span> {% if rform.password.errors %} {{rform.password.errors.0}} {%endif%}</span>
+        <br>
+        {{rform.repassword.label(class="control-label")}} {{rform.repassword}} &nbsp;&nbsp;<span> {% if rform.repassword.errors %} {{rform.repassword.errors.0}} {%endif%}</span>
+        <br>
+        {{rform.phone.label(class="control-label")}} {{rform.phone}} &nbsp;&nbsp; <span>{% if rform.phone.errors %} {{rform.phone.errors.0}} {%endif%}</span>
+        <br>
+        <button type="submit" class="btn btn-info">用户注册</button>
+    </form>
+
+    <hr>
+
+
+</div>
+{% endblock %}
